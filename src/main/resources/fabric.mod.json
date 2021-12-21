@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "chromatic",
+  "version": "${version}",
+  "name": "Chromatic",
+  "description": "A Minecraft mod for controlling Razer Chroma keyboards",
+  "authors": ["TheSuperGamer20578"],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/chromatic",
+    "issues": "https://github.com/TheSuperGamer20578/Chromatic/issues",
+    "sources": "https://github.com/TheSuperGamer20578/Chromatic"
+  },
+  "license": "LGPL-2.1-or-later",
+  "icon": "assets/chromatic/icon.png",
+  "environment": "client",
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "minecraft": "*",
+    "java": ">=17"
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "entrypoints": {
+
+  },
+  "mixins": [
+    "chromatic.mixins.json"
+  ]
+}
