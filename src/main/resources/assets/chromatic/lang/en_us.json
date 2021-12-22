@@ -1,0 +1,18 @@
+{
+  "text.autoconfig.chromatic.title": "Chromatic Configuration",
+  "text.autoconfig.chromatic.option.backgroundColour": "Background Color",
+  "text.autoconfig.chromatic.option.chatColour": "Chat Color",
+  "text.autoconfig.chromatic.option.healthColour": "Health Color",
+  "text.autoconfig.chromatic.option.oxygenColour": "Oxygen Color",
+  "text.autoconfig.chromatic.option.hungerColour": "Hunger Color",
+  "text.autoconfig.chromatic.option.WSADColour": "WSAD Color",
+  "text.autoconfig.chromatic.option.ESCColour": "Escape Color",
+  "text.autoconfig.chromatic.option.tabColour": "Tab Color",
+  "text.autoconfig.chromatic.option.modifierColour": "Modifier Color",
+  "text.autoconfig.chromatic.option.items": "Items",
+  "text.autoconfig.chromatic.option.items.selectedColour": "Selected Color",
+  "text.autoconfig.chromatic.option.items.toolColour": "Tool Color",
+  "text.autoconfig.chromatic.option.items.stackableColour": "Stackable Color",
+  "text.autoconfig.chromatic.option.items.otherColour": "Other Color",
+  "text.autoconfig.chromatic.option.items.emptyColour": "Empty Color"
+}

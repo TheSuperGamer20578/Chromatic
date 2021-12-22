@@ -22,7 +22,12 @@
     "modmenu": "*"
   },
   "entrypoints": {
-
+    "main": [
+      "com.TheSuperGamer20578.chromatic.Init"
+    ],
+    "modmenu": [
+      "com.TheSuperGamer20578.chromatic.ModMenu"
+    ]
   },
   "mixins": [
     "chromatic.mixins.json"
