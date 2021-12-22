@@ -25,6 +25,9 @@
     "main": [
       "com.TheSuperGamer20578.chromatic.Init"
     ],
+    "preLaunch": [
+      "com.TheSuperGamer20578.chromatic.PreInit"
+    ],
     "modmenu": [
       "com.TheSuperGamer20578.chromatic.ModMenu"
     ]
