@@ -8,8 +8,8 @@ public class ColourRef extends ColorRef {
     }
 
     public static ColourRef fromInt(int colour) {
-        short red = (short) (colour >> 4);
-        short green = (short) (colour >> 2 & 0xff);
+        short red = (short) (colour >> 16);
+        short green = (short) (colour >> 8 & 0xff);
         short blue = (short) (colour & 0xff);
         return new ColourRef(red, green, blue);
     }
