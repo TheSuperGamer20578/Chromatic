@@ -32,7 +32,7 @@ public class ModConfig implements ConfigData {
     public int hungerColour = 0xffff00;
 
     @ConfigEntry.ColorPicker
-    public int WSADColour = 0x00ffff;
+    public int movementColour = 0x00ffff;
 
     @ConfigEntry.ColorPicker
     public int ESCColour = 0xff0000;
@@ -42,6 +42,9 @@ public class ModConfig implements ConfigData {
 
     @ConfigEntry.ColorPicker
     public int modifierColour = 0x00ff00;
+
+    @ConfigEntry.ColorPicker
+    public int inventoryColour = 0x0000ff;
 
     @ConfigEntry.Gui.CollapsibleObject
     Items items = new Items();
