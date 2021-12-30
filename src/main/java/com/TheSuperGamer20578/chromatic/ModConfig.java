@@ -47,9 +47,9 @@ public class ModConfig implements ConfigData {
     public int inventoryColour = 0x0000ff;
 
     @ConfigEntry.Gui.CollapsibleObject
-    Items items = new Items();
+    public Items items = new Items();
 
-    static class Items {
+    public static class Items {
         @ConfigEntry.ColorPicker
         public int selectedColour = 0x00ff00;
 
@@ -64,5 +64,8 @@ public class ModConfig implements ConfigData {
 
         @ConfigEntry.ColorPicker
         public int emptyColour = 0x000000;
+
+        @ConfigEntry.BoundedDiscrete(max = 0xff)
+        public int minBrightness = 50;
     }
 }

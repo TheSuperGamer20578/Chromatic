@@ -15,5 +15,6 @@
   "text.autoconfig.chromatic.option.items.toolColour": "Tool Colour",
   "text.autoconfig.chromatic.option.items.stackableColour": "Stackable Colour",
   "text.autoconfig.chromatic.option.items.otherColour": "Other Colour",
-  "text.autoconfig.chromatic.option.items.emptyColour": "Empty Colour"
+  "text.autoconfig.chromatic.option.items.emptyColour": "Empty Colour",
+  "text.autoconfig.chromatic.option.items.minBrightness": "Minimum Brightness"
 }
