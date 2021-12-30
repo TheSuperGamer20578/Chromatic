@@ -13,4 +13,9 @@ public class ColourRef extends ColorRef {
         short blue = (short) (colour & 0xff);
         return new ColourRef(red, green, blue);
     }
+
+    public ColourRef multiply(Number number) {
+        double n = number.doubleValue();
+        return new ColourRef((int) (getRed() * n), (int) (getGreen() * n), (int) (getBlue() * n));
+    }
 }
