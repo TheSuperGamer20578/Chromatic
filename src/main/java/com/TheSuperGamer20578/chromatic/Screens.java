@@ -78,7 +78,7 @@ public enum Screens {
     ADD_SERVER(AddServerScreen.class),
     BACKUP_PROMPT(BackupPromptScreen.class),
     CHAT(ChatScreen.class),
-    CONFIRM_LINK(ChatScreen.class),
+    CONFIRM_LINK(ConfirmChatLinkScreen.class),
     CONNECT(ConnectScreen.class),
     CREDITS(CreditsScreen.class),
     CUSTOMIZE_BUFFET(CustomizeBuffetLevelScreen.class),
@@ -92,7 +92,7 @@ public enum Screens {
     DOWNLOAD_TERRAIN(DownloadingTerrainScreen.class),
     FATAL_ERROR(FatalErrorScreen.class),
     MENU(GameMenuScreen.class),
-    GAMEMODE_SELECT(GameMenuScreen.class),
+    GAMEMODE_SELECT(GameModeSelectionScreen.class),
     LOADING(LevelLoadingScreen.class),
     NOTICE(NoticeScreen.class),
     LAN(OpenToLanScreen.class),
@@ -103,7 +103,8 @@ public enum Screens {
     SLEEPING(SleepingChatScreen.class),
     STATS(StatsScreen.class),
     TITLE(TitleScreen.class),
-    NONE("");
+    NONE(""),
+    OTHER;
 
     public final String value;
     Screens(Class<? extends Screen> screen) {
@@ -120,7 +121,13 @@ public enum Screens {
             screens.put(v.value, v);
         }
     }
-    public static Screens of(String screen) {
-        return screens.get(screen);
+
+    Screens() {
+        value = null;
+    }
+
+    public static Screens of(String key) {
+        Screens screen = Screens.screens.get(key);
+        return screen == null ? OTHER : screen;
     }
 }
