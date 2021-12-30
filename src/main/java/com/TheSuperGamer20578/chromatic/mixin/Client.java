@@ -120,9 +120,9 @@ public class Client {
                     if (player.getAir() < player.getMaxAir()) {
                         float oxygen = (float) player.getAir() / player.getMaxAir();
                         ColourRef oxygenColour = ColourRef.fromInt(config.oxygenColour);
-                        layout[0][7] = oxygenColour.multiply(oxygen == 0  ? 0 : oxygen > .25 ? 1 : oxygen * 4);
-                        layout[0][8] = oxygenColour.multiply(oxygen < .25 ? 0 : oxygen > .5  ? 1 : (oxygen-.25) * 4);
-                        layout[0][9] = oxygenColour.multiply(oxygen < .5  ? 0 : oxygen > .75 ? 1 : (oxygen-.5) * 4);
+                        layout[0][7]  = oxygenColour.multiply(oxygen == 0  ? 0 : oxygen > .25 ? 1 : oxygen * 4);
+                        layout[0][8]  = oxygenColour.multiply(oxygen < .25 ? 0 : oxygen > .5  ? 1 : (oxygen-.25) * 4);
+                        layout[0][9]  = oxygenColour.multiply(oxygen < .5  ? 0 : oxygen > .75 ? 1 : (oxygen-.5) * 4);
                         layout[0][10] = oxygenColour.multiply(oxygen < .75 ? 0 : (oxygen-.75) * 4);
                     }
 
