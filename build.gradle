@@ -21,6 +21,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     implementation project(':lib:JChroma')
+    include project(':lib:JChroma')
 }
 
 processResources {
@@ -32,7 +33,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 16
+    it.options.release = 17
     it.options.encoding 'UTF-8'
 }
 
