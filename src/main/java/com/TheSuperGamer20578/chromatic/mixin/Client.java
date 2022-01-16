@@ -17,7 +17,7 @@ public class Client {
     @Inject(at = @At("HEAD"), method = "tick")
     private void tick(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
-        Screens screen = Screens.of(client.currentScreen == null ? "" : client.currentScreen.getClass().getName());
+        Screens screen = Screens.of(client.currentScreen == null ? null : client.currentScreen.getClass());
         JChroma chroma = JChroma.getInstance();
         ModConfig config = ModConfig.INSTANCE;
         switch (screen) {

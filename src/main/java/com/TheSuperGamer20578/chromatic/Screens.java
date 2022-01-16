@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screen.multiplayer.*;
 import net.minecraft.client.gui.screen.option.*;
 import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.screen.world.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -103,31 +104,25 @@ public enum Screens {
     SLEEPING(SleepingChatScreen.class),
     STATS(StatsScreen.class),
     TITLE(TitleScreen.class),
-    NONE(""),
-    OTHER;
+    NONE(null),
+    OTHER(Screen.class);
 
-    public final String value;
-    Screens(Class<? extends Screen> screen) {
-        value = screen.getName();
-    }
-    Screens(String value) {
-        this.value = value;
+    @Nullable public final Class<? extends Screen> value;
+    Screens(@Nullable Class<? extends Screen> screen) {
+        value = screen;
     }
 
-    private static final Map<String, Screens> screens;
-    static {
-        screens = new HashMap<>();
-        for (Screens v : Screens.values()) {
-            screens.put(v.value, v);
-        }
-    }
+    private static final Map<@Nullable Class<? extends Screen>, Screens> cache = new HashMap<>();
 
-    Screens() {
-        value = null;
-    }
-
-    public static Screens of(String key) {
-        Screens screen = Screens.screens.get(key);
-        return screen == null ? OTHER : screen;
+    public static Screens of(@Nullable Class<? extends Screen> key) {
+        return cache.computeIfAbsent(key, k -> {
+            if (k == null) return NONE;
+            for (Screens screen : Screens.values()) {
+                if (screen.value != null && screen.value.isAssignableFrom(k)) {
+                    return screen;
+                }
+            }
+            throw new IllegalStateException("Unreachable");
+        });
     }
 }
