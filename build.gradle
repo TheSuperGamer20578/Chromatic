@@ -3,6 +3,9 @@ plugins {
     id 'maven-publish'
 }
 
+version = project.mod_version
+group = "com.TheSuperGamer20578"
+
 repositories {
     maven {
         url "https://maven.terraformersmc.com/"
@@ -20,8 +23,8 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    implementation project(':lib:JChroma')
-    include project(':lib:JChroma')
+    implementation project(":lib:JChroma")
+    include project(":lib:JChroma")
 }
 
 processResources {
