@@ -110,28 +110,30 @@ public class Client {
                 ColourRef[][] layout = Layouts.main();
                 ClientPlayerEntity player = client.player;
                 if (player != null) {
-                    double health = player.getHealth() / player.getMaxHealth();
-                    ColourRef healthColour = ColourRef.fromInt(config.healthColour);
-                    layout[0][3] = healthColour.multiply(health == 0  ? 0 : health > .25 ? 1 : health * 4);
-                    layout[0][4] = healthColour.multiply(health < .25 ? 0 : health > .5  ? 1 : (health-.25) * 4);
-                    layout[0][5] = healthColour.multiply(health < .5  ? 0 : health > .75 ? 1 : (health-.5) * 4);
-                    layout[0][6] = healthColour.multiply(health < .75 ? 0 : (health-.75) * 4);
+                    if (!player.getAbilities().invulnerable) {
+                        double health = player.getHealth() / player.getMaxHealth();
+                        ColourRef healthColour = ColourRef.fromInt(config.healthColour);
+                        layout[0][3] = healthColour.multiply(health == 0 ? 0 : health > .25 ? 1 : health * 4);
+                        layout[0][4] = healthColour.multiply(health < .25 ? 0 : health > .5 ? 1 : (health - .25) * 4);
+                        layout[0][5] = healthColour.multiply(health < .5 ? 0 : health > .75 ? 1 : (health - .5) * 4);
+                        layout[0][6] = healthColour.multiply(health < .75 ? 0 : (health - .75) * 4);
 
-                    if (player.getAir() < player.getMaxAir()) {
-                        float oxygen = (float) player.getAir() / player.getMaxAir();
-                        ColourRef oxygenColour = ColourRef.fromInt(config.oxygenColour);
-                        layout[0][7]  = oxygenColour.multiply(oxygen == 0  ? 0 : oxygen > .25 ? 1 : oxygen * 4);
-                        layout[0][8]  = oxygenColour.multiply(oxygen < .25 ? 0 : oxygen > .5  ? 1 : (oxygen-.25) * 4);
-                        layout[0][9]  = oxygenColour.multiply(oxygen < .5  ? 0 : oxygen > .75 ? 1 : (oxygen-.5) * 4);
-                        layout[0][10] = oxygenColour.multiply(oxygen < .75 ? 0 : (oxygen-.75) * 4);
+                        if (player.getAir() < player.getMaxAir()) {
+                            float oxygen = (float) player.getAir() / player.getMaxAir();
+                            ColourRef oxygenColour = ColourRef.fromInt(config.oxygenColour);
+                            layout[0][7] = oxygenColour.multiply(oxygen == 0 ? 0 : oxygen > .25 ? 1 : oxygen * 4);
+                            layout[0][8] = oxygenColour.multiply(oxygen < .25 ? 0 : oxygen > .5 ? 1 : (oxygen - .25) * 4);
+                            layout[0][9] = oxygenColour.multiply(oxygen < .5 ? 0 : oxygen > .75 ? 1 : (oxygen - .5) * 4);
+                            layout[0][10] = oxygenColour.multiply(oxygen < .75 ? 0 : (oxygen - .75) * 4);
+                        }
+
+                        float hunger = player.getHungerManager().getFoodLevel() / 20f;
+                        ColourRef hungerColour = ColourRef.fromInt(config.hungerColour);
+                        layout[0][11] = hungerColour.multiply(hunger == 0 ? 0 : hunger > .25 ? 1 : hunger * 4);
+                        layout[0][12] = hungerColour.multiply(hunger < .25 ? 0 : hunger > .5 ? 1 : (hunger - .25) * 4);
+                        layout[0][13] = hungerColour.multiply(hunger < .5 ? 0 : hunger > .75 ? 1 : (hunger - .5) * 4);
+                        layout[0][14] = hungerColour.multiply(hunger < .75 ? 0 : (hunger - .75) * 4);
                     }
-
-                    float hunger = player.getHungerManager().getFoodLevel() / 20f;
-                    ColourRef hungerColour = ColourRef.fromInt(config.hungerColour);
-                    layout[0][11] = hungerColour.multiply(hunger == 0  ? 0 : hunger > .25 ? 1 : hunger * 4);
-                    layout[0][12] = hungerColour.multiply(hunger < .25 ? 0 : hunger > .5  ? 1 : (hunger-.25) * 4);
-                    layout[0][13] = hungerColour.multiply(hunger < .5  ? 0 : hunger > .75 ? 1 : (hunger-.5) * 4);
-                    layout[0][14] = hungerColour.multiply(hunger < .75 ? 0 : (hunger-.75) * 4);
 
                     ColourRef selectedColour = ColourRef.fromInt(config.items.selectedColour);
                     ColourRef stackableColour = ColourRef.fromInt(config.items.stackableColour);
