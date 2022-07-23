@@ -3,6 +3,7 @@ package com.TheSuperGamer20578.chromatic.mixin;
 import com.TheSuperGamer20578.chromatic.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import org.jglr.jchroma.JChroma;
 import org.jglr.jchroma.effects.CustomKeyboardEffect;
@@ -112,7 +113,17 @@ public class Client {
                 if (player != null) {
                     if (!player.getAbilities().invulnerable) {
                         double health = player.getHealth() / player.getMaxHealth();
-                        ColourRef healthColour = ColourRef.fromInt(config.healthColour);
+                        boolean hardcore = player.world.getLevelProperties().isHardcore();
+                        ColourRef healthColour;
+                        if (player.hasStatusEffect(StatusEffects.POISON)) {
+                            healthColour = hardcore ? ColourRef.fromInt(config.health.hardcorePoisonedColour) : ColourRef.fromInt(config.health.poisonedColour);
+                        } else if (player.hasStatusEffect(StatusEffects.WITHER)) {
+                            healthColour = hardcore ? ColourRef.fromInt(config.health.hardcoreWitheredColour) : ColourRef.fromInt(config.health.witheredColour);
+                        } else if (player.isFrozen()) {
+                            healthColour = hardcore ? ColourRef.fromInt(config.health.hardcoreFrozenColour) : ColourRef.fromInt(config.health.frozenColour);
+                        } else {
+                            healthColour = hardcore ? ColourRef.fromInt(config.health.hardcoreNormalColour) : ColourRef.fromInt(config.health.normalColour);
+                        }
                         layout[0][3] = healthColour.multiply(health == 0 ? 0 : health > .25 ? 1 : health * 4);
                         layout[0][4] = healthColour.multiply(health < .25 ? 0 : health > .5 ? 1 : (health - .25) * 4);
                         layout[0][5] = healthColour.multiply(health < .5 ? 0 : health > .75 ? 1 : (health - .5) * 4);
