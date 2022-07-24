@@ -1,6 +1,7 @@
 package com.TheSuperGamer20578.chromatic.mixin;
 
 import com.TheSuperGamer20578.chromatic.*;
+import com.TheSuperGamer20578.chromatic.effects.Regen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.jglr.jchroma.JChroma;
@@ -29,6 +30,17 @@ public class Client {
         Screens screen = Screens.of(client.currentScreen == null ? null : client.currentScreen.getClass());
         JChroma chroma = JChroma.getInstance();
         ModConfig config = ModConfig.INSTANCE;
+
+        // Regen check
+        if (player != null) {
+            float health = player.getHealth();
+            if (Util.effectQueue.isEmpty() && lastHealth != -1) {
+                if (health > lastHealth)
+                    Util.effectQueue.add(new Regen());
+            }
+            lastHealth = health;
+        }
+
         IEffect effect = Util.effectQueue.peek();
         while (effect != null && (!effect.noScreenOnly() || screen == Screens.NONE)) {
             KeyboardEffect next = effect.next(client, player, screen);

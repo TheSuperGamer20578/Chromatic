@@ -73,6 +73,11 @@ public class ModConfig implements ConfigData {
 
         @ConfigEntry.ColorPicker
         public int hardcoreFrozenColour = 0x00aaff;
+
+        @ConfigEntry.ColorPicker
+        public int regenColour = 0x00ff00;
+
+        public int regenFlashDuration = 10;
     }
 
     public static class Items {

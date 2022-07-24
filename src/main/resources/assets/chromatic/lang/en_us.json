@@ -18,6 +18,8 @@
   "text.autoconfig.chromatic.option.health.hardcorePoisonedColour": "Hardcore Poisoned Color",
   "text.autoconfig.chromatic.option.health.hardcoreWitheredColour": "Hardcore Withered Color",
   "text.autoconfig.chromatic.option.health.hardcoreFrozenColour": "Hardcore Frozen Color",
+  "text.autoconfig.chromatic.option.health.regenColour": "Regen Color",
+  "text.autoconfig.chromatic.option.health.regenFlashDuration": "Regen Flash Duration",
   "text.autoconfig.chromatic.option.items": "Items",
   "text.autoconfig.chromatic.option.items.selectedColour": "Selected Color",
   "text.autoconfig.chromatic.option.items.toolColour": "Tool Color",
