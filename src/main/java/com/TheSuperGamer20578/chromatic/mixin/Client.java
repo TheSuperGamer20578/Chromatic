@@ -1,6 +1,7 @@
 package com.TheSuperGamer20578.chromatic.mixin;
 
 import com.TheSuperGamer20578.chromatic.*;
+import com.TheSuperGamer20578.chromatic.effects.Damage;
 import com.TheSuperGamer20578.chromatic.effects.Regen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -31,12 +32,14 @@ public class Client {
         JChroma chroma = JChroma.getInstance();
         ModConfig config = ModConfig.INSTANCE;
 
-        // Regen check
+        // Regen/damage check
         if (player != null) {
             float health = player.getHealth();
             if (Util.effectQueue.isEmpty() && lastHealth != -1) {
                 if (health > lastHealth)
                     Util.effectQueue.add(new Regen());
+                else if (health < lastHealth && lastHealth-health > config.health.damageThreshold)
+                    Util.effectQueue.add(new Damage());
             }
             lastHealth = health;
         }

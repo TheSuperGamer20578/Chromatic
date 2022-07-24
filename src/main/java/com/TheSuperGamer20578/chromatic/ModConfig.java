@@ -78,6 +78,13 @@ public class ModConfig implements ConfigData {
         public int regenColour = 0x00ff00;
 
         public int regenFlashDuration = 10;
+
+        @ConfigEntry.ColorPicker
+        public int damageColour = 0xff1100;
+
+        public int damageFlashDuration = 5;
+
+        public int damageThreshold = 5;
     }
 
     public static class Items {
