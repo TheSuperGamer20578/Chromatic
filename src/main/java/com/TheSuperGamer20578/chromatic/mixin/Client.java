@@ -7,6 +7,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import org.jglr.jchroma.JChroma;
 import org.jglr.jchroma.effects.CustomKeyboardEffect;
+import org.jglr.jchroma.effects.KeyboardEffect;
 import org.jglr.jchroma.effects.StaticKeyboardEffect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,12 +16,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public class Client {
+    private float lastHealth = -1;
+
+    @Inject(at = @At("HEAD"), method = "joinWorld")
+    private void joinWorld(CallbackInfo ci) {
+        Util.effectQueue.clear();
+        lastHealth = -1;
+    }
+
     @Inject(at = @At("HEAD"), method = "tick")
     private void tick(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
+        ClientPlayerEntity player = client.player;
         Screens screen = Screens.of(client.currentScreen == null ? null : client.currentScreen.getClass());
         JChroma chroma = JChroma.getInstance();
         ModConfig config = ModConfig.INSTANCE;
+        IEffect effect = Util.effectQueue.peek();
+        while (effect != null && (!effect.noScreenOnly() || screen == Screens.NONE)) {
+            KeyboardEffect next = effect.next(client, player, screen);
+            if (next != null) {
+                chroma.createKeyboardEffect(next);
+                return;
+            }
+            effect = Util.effectQueue.poll();
+        }
+
         switch (screen) {
             case ADVANCEMENTS:
             case BEACON:
@@ -109,7 +129,6 @@ public class Client {
                 break;
             case NONE:
                 ColourRef[][] layout = Layouts.main();
-                ClientPlayerEntity player = client.player;
                 if (player != null) {
                     if (!player.getAbilities().invulnerable) {
                         double health = player.getHealth() / player.getMaxHealth();
