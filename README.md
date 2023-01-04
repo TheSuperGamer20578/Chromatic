@@ -6,7 +6,9 @@ A Minecraft mod for controlling Razer Chroma keyboards.
 **Requires the Chroma Connect module of Razer Synapse.**  
 Also requires [Fabric API](https://github.com/FabricMC/fabric)
 and [Cloth Config](https://github.com/shedaniel/cloth-config).  
-[Mod Menu](https://github.com/TerraformersMC/ModMenu) is recommended to access mod settings.
+[Mod Menu](https://github.com/TerraformersMC/ModMenu) is recommended to access mod settings.  
+  
+[![](https://dcbadge.vercel.app/api/server/ehqQUvvmc6?style=flat)](https://discord.gg/ehqQUvvmc6)
 
 ## Features
 - Displays health on the F1-F4 keys
