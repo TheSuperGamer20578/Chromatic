@@ -1,5 +1,6 @@
 package com.TheSuperGamer20578.chromatic;
 
+import org.jetbrains.annotations.Nullable;
 import org.jglr.jchroma.utils.ColorRef;
 
 public class ColourRef extends ColorRef {
@@ -17,5 +18,12 @@ public class ColourRef extends ColorRef {
     public ColourRef multiply(Number number) {
         double n = number.doubleValue();
         return new ColourRef((int) (getRed() * n), (int) (getGreen() * n), (int) (getBlue() * n));
+    }
+
+    public ColourRef tint(@Nullable ColourRef other) {
+        if (other == null) {
+            return this;
+        }
+        return new ColourRef((getRed() + other.getRed()) / 2, (getGreen() + other.getGreen()) / 2, (getBlue() + other.getBlue()) / 2);
     }
 }

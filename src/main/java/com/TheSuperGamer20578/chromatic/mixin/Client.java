@@ -142,8 +142,9 @@ public class Client {
                 break;
             case NONE:
                 ColourRef[][] layout = Layouts.main();
+                Layouts.applyTint(layout, player);
                 if (player != null)
-                    Layouts.applyStatus(layout, player);
+                    Layouts.applyStatus(layout, player, true);
                 chroma.createKeyboardEffect(new CustomKeyboardEffect(layout));
                 break;
         }

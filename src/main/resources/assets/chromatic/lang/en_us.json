@@ -29,5 +29,11 @@
   "text.autoconfig.chromatic.option.items.stackableColour": "Stackable Color",
   "text.autoconfig.chromatic.option.items.otherColour": "Other Color",
   "text.autoconfig.chromatic.option.items.emptyColour": "Empty Color",
-  "text.autoconfig.chromatic.option.items.minBrightness": "Minimum Brightness"
+  "text.autoconfig.chromatic.option.items.minBrightness": "Minimum Brightness",
+  "text.autoconfig.chromatic.option.tint": "Tint",
+  "text.autoconfig.chromatic.option.tint.enabled": "Enable Tinting",
+  "text.autoconfig.chromatic.option.tint.preserveBlack": "Preserve Black",
+  "text.autoconfig.chromatic.option.tint.waterColour": "Water Color",
+  "text.autoconfig.chromatic.option.tint.fireColour": "Fire Color",
+  "text.autoconfig.chromatic.option.tint.rainColour": "Rain Color"
 }

@@ -24,7 +24,8 @@ public class Regen implements IEffect {
         ColourRef[][] layout = Layouts.main();
         if (player == null)
             return new CustomKeyboardEffect(layout);
-        Layouts.applyStatus(layout, player);
+        Layouts.applyTint(layout, player);
+        Layouts.applyStatus(layout, player, true);
 
         double health = player.getHealth() / player.getMaxHealth();
         ColourRef colour = ColourRef.fromInt(ModConfig.INSTANCE.health.regenColour);

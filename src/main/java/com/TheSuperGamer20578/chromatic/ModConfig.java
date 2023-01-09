@@ -49,6 +49,9 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.CollapsibleObject
     public Items items = new Items();
 
+    @ConfigEntry.Gui.CollapsibleObject
+    public Tint tint = new Tint();
+
     public static class Health {
         @ConfigEntry.ColorPicker
         public int normalColour = 0xff0000;
@@ -105,5 +108,20 @@ public class ModConfig implements ConfigData {
 
         @ConfigEntry.BoundedDiscrete(max = 0xff)
         public int minBrightness = 50;
+    }
+
+    public static class Tint {
+        public boolean enabled = true;
+
+        public boolean preserveBlack = true;
+
+        @ConfigEntry.ColorPicker
+        public int waterColour = 0x5555aa;
+
+        @ConfigEntry.ColorPicker
+        public int fireColour = 0xff5555;
+
+        @ConfigEntry.ColorPicker
+        public int rainColour = 0x00aaaa;
     }
 }
