@@ -20,9 +20,6 @@
     "minecraft": ">=1.19",
     "java": ">=11"
   },
-  "suggests": {
-    "modmenu": "*"
-  },
   "entrypoints": {
     "main": [
       "com.TheSuperGamer20578.chromatic.Init"
