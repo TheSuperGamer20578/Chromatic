@@ -35,5 +35,8 @@
   "text.autoconfig.chromatic.option.tint.preserveBlack": "Preserve Black",
   "text.autoconfig.chromatic.option.tint.waterColour": "Water Color",
   "text.autoconfig.chromatic.option.tint.fireColour": "Fire Color",
-  "text.autoconfig.chromatic.option.tint.rainColour": "Rain Color"
+  "text.autoconfig.chromatic.option.tint.rainColour": "Rain Color",
+  "text.autoconfig.chromatic.option.tint.stormColour": "Storm Color",
+  "text.autoconfig.chromatic.option.tint.powderSnowColour": "Powder Snow Color",
+  "text.autoconfig.chromatic.option.tint.snowColour": "Snow Color"
 }

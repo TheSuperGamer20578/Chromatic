@@ -123,5 +123,14 @@ public class ModConfig implements ConfigData {
 
         @ConfigEntry.ColorPicker
         public int rainColour = 0x00aaaa;
+
+        @ConfigEntry.ColorPicker
+        public int stormColour = 0x2f444a;
+
+        @ConfigEntry.ColorPicker
+        public int powderSnowColour = 0xffffff;
+
+        @ConfigEntry.ColorPicker
+        public int snowColour = 0xdddddd;
     }
 }

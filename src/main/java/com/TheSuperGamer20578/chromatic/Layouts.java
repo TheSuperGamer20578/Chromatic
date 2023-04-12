@@ -4,6 +4,8 @@ import com.TheSuperGamer20578.chromatic.mixin.EntityAccessor;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -105,6 +107,9 @@ public class Layouts {
             return null;
         }
 
+        if (player.inPowderSnow || player.wasInPowderSnow) {
+            return ColourRef.fromInt(config.powderSnowColour);
+        }
         if (player.isSubmergedInWater()) {
             return ColourRef.fromInt(config.waterColour);
         }
@@ -112,7 +117,19 @@ public class Layouts {
             return ColourRef.fromInt(config.fireColour);
         }
         if (((EntityAccessor) player).invokeIsBeingRainedOn()) {
+            if (player.world.isThundering()) {
+                return ColourRef.fromInt(config.stormColour);
+            }
             return ColourRef.fromInt(config.rainColour);
+        }
+        if (
+            player.world.isRaining()
+            && player.world.getBiome(player.getBlockPos()).value().getPrecipitation() == Biome.Precipitation.SNOW
+            && !player.world.getBiome(player.getBlockPos()).value().doesNotSnow(player.getBlockPos())
+            && player.world.isSkyVisible(player.getBlockPos())
+            && player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.getBlockPos()).getY() <= player.getBlockPos().getY()
+        ) {
+            return ColourRef.fromInt(config.snowColour);
         }
         return null;
     }
