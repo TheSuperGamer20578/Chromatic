@@ -55,66 +55,6 @@ public class Client {
         }
 
         switch (screen) {
-            case ADVANCEMENTS:
-            case BEACON:
-            case BLAST_FURNACE:
-            case BOOK:
-            case BREWING:
-            case CARTOGRAPHY:
-            case CRAFTING:
-            case ENCHANTING:
-            case FORGING:
-            case FURNACE:
-            case GRINDSTONE:
-            case HOPPER:
-            case HORSE:
-            case INVENTORY:
-            case LECTERN:
-            case LOOM:
-            case MERCHANT:
-            case SHULKER:
-            case SMITHING:
-            case SMOKER:
-            case STONE_CUTTER:
-            case SERVERS:
-            case MULTIPLAYER_WARNING:
-            case ACCESSIBILITY:
-            case CHAT_OPTIONS:
-            case GAME_OPTIONS:
-            case LANGUAGES:
-            case MOUSE_OPTIONS:
-            case ONLINE_OPTIONS:
-            case OPTIONS:
-            case SKIN_OPTIONS:
-            case SOUND:
-            case VIDEO_SETTINGS:
-            case RESOURCE_PACKS:
-            case GAME_RULES:
-            case OPTIMIZE_WORLD:
-            case SELECT_WORLD:
-            case BACKUP_PROMPT:
-            case CONFIRM_LINK:
-            case CONNECT:
-            case CREDITS:
-            case CUSTOMIZE_BUFFET:
-            case CUSTOMIZE_FLAT:
-            case DATAPACK_FAIL:
-            case DEMO:
-            case DIALOG:
-            case DISCONNECTED:
-            case DOWNLOAD_TERRAIN:
-            case FATAL_ERROR:
-            case MENU:
-            case GAMEMODE_SELECT:
-            case LOADING:
-            case NOTICE:
-            case LAN:
-            case OUT_OF_MEMORY:
-            case PRESETS:
-            case PROGRESS:
-            case SAVE:
-            case STATS:
-            case TITLE:
             case OTHER:
                 chroma.createKeyboardEffect(new StaticKeyboardEffect(ColourRef.fromInt(config.backgroundColour)));
                 break;
