@@ -2,7 +2,8 @@ package com.TheSuperGamer20578.chromatic;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
 import org.jglr.jchroma.JChroma;
 import org.jglr.jchroma.effects.WaveDirection;
@@ -15,12 +16,12 @@ public class Init implements ModInitializer {
         ModConfig.init();
         JChroma chroma = JChroma.getInstance();
         chroma.createKeyboardEffect(new WaveKeyboardEffect(WaveDirection.LEFT_TO_RIGHT));
-        ClientCommandManager.DISPATCHER.register(ClientCommandManager.literal("chromaticconfig")
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("chromaticconfig")
             .executes(context -> {
                 MinecraftClient.getInstance().send(() -> MinecraftClient.getInstance().setScreen(AutoConfig.getConfigScreen(ModConfig.class, null).get()));
                 return 1;
             })
-        );
+        ));
         Util.LOGGER.info("Chromatic initialised");
     }
 

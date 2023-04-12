@@ -17,7 +17,7 @@
     "cloth-config": "*",
     "fabric": "*",
     "fabricloader": "*",
-    "minecraft": ">=1.18",
+    "minecraft": ">=1.19",
     "java": ">=11"
   },
   "suggests": {

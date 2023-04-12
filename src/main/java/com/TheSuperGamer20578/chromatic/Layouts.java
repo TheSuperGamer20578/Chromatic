@@ -124,7 +124,7 @@ public class Layouts {
         }
         if (
             player.world.isRaining()
-            && player.world.getBiome(player.getBlockPos()).value().getPrecipitation() == Biome.Precipitation.SNOW
+            && player.world.getBiome(player.getBlockPos()).value().getPrecipitation(player.getBlockPos()) == Biome.Precipitation.SNOW
             && !player.world.getBiome(player.getBlockPos()).value().doesNotSnow(player.getBlockPos())
             && player.world.isSkyVisible(player.getBlockPos())
             && player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.getBlockPos()).getY() <= player.getBlockPos().getY()
