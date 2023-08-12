@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.TheSuperGamer20578.chromatic.mixin",
+  "package": "io.github.thesupergamer20578.chromatic.mixin",
   "client": [
     "Client",
     "EntityAccessor"

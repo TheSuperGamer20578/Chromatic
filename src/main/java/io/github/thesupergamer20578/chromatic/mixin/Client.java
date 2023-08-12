@@ -1,8 +1,8 @@
-package com.TheSuperGamer20578.chromatic.mixin;
+package io.github.thesupergamer20578.chromatic.mixin;
 
-import com.TheSuperGamer20578.chromatic.*;
-import com.TheSuperGamer20578.chromatic.effects.Damage;
-import com.TheSuperGamer20578.chromatic.effects.Regen;
+import io.github.thesupergamer20578.chromatic.*;
+import io.github.thesupergamer20578.chromatic.effects.Damage;
+import io.github.thesupergamer20578.chromatic.effects.Regen;
 import io.github.thesupergamer20578.chroma.Chroma;
 import io.github.thesupergamer20578.chroma.Colour;
 import io.github.thesupergamer20578.chroma.drivers.Driver;
@@ -50,7 +50,7 @@ public class Client {
             lastHealth = health;
         }
 
-        IEffect effect = Util.effectQueue.peek();
+        Effect effect = Util.effectQueue.peek();
         while (effect != null && (!effect.noScreenOnly() || screen == Screens.NONE)) {
             if (effect.next(driver, client, player, screen)) {
                 return;

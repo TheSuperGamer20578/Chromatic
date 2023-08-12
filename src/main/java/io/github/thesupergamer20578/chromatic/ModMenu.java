@@ -1,4 +1,4 @@
-package com.TheSuperGamer20578.chromatic;
+package io.github.thesupergamer20578.chromatic;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

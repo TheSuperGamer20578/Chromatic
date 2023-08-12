@@ -1,4 +1,4 @@
-package com.TheSuperGamer20578.chromatic;
+package io.github.thesupergamer20578.chromatic;
 
 import io.github.thesupergamer20578.chroma.Chroma;
 import io.github.thesupergamer20578.chroma.WaveDirection;

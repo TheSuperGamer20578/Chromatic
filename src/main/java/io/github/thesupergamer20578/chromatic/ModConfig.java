@@ -1,4 +1,4 @@
-package com.TheSuperGamer20578.chromatic;
+package io.github.thesupergamer20578.chromatic;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;

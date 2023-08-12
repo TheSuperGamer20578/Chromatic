@@ -1,6 +1,6 @@
-package com.TheSuperGamer20578.chromatic;
+package io.github.thesupergamer20578.chromatic;
 
-import com.TheSuperGamer20578.chromatic.mixin.EntityAccessor;
+import io.github.thesupergamer20578.chromatic.mixin.EntityAccessor;
 import io.github.thesupergamer20578.chroma.Colour;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffects;

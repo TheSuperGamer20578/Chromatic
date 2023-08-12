@@ -1,13 +1,16 @@
-package com.TheSuperGamer20578.chromatic.effects;
+package io.github.thesupergamer20578.chromatic.effects;
 
-import com.TheSuperGamer20578.chromatic.*;
 import io.github.thesupergamer20578.chroma.Colour;
 import io.github.thesupergamer20578.chroma.drivers.Driver;
+import io.github.thesupergamer20578.chromatic.Effect;
+import io.github.thesupergamer20578.chromatic.Layouts;
+import io.github.thesupergamer20578.chromatic.ModConfig;
+import io.github.thesupergamer20578.chromatic.Screens;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
-public class Regen implements IEffect {
+public class Regen implements Effect {
     private long time = 0;
 
     @Override

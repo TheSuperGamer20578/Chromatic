@@ -3,7 +3,7 @@ plugins {
 }
 
 version = project.mod_version
-group = "com.TheSuperGamer20578"
+group = "io.github.thesupergamer20578"
 
 repositories {
     maven {

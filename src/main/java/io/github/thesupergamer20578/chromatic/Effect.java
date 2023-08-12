@@ -1,11 +1,11 @@
-package com.TheSuperGamer20578.chromatic;
+package io.github.thesupergamer20578.chromatic;
 
 import io.github.thesupergamer20578.chroma.drivers.Driver;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
-public interface IEffect {
+public interface Effect {
     boolean noScreenOnly();
 
     /**

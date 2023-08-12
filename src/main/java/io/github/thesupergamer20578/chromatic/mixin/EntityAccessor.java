@@ -1,4 +1,4 @@
-package com.TheSuperGamer20578.chromatic.mixin;
+package io.github.thesupergamer20578.chromatic.mixin;
 
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
