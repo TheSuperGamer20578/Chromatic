@@ -12,6 +12,13 @@ repositories {
     maven {
         url "https://maven.shedaniel.me/"
     }
+    maven {
+        url "https://maven.pkg.github.com/thesupergamer20578/chroma/"
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 dependencies {
@@ -23,8 +30,8 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:10.0.96") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    implementation project(":lib:JChroma")
-    include project(":lib:JChroma")
+    implementation "io.github.thesupergamer20578:chroma:0.1.0-alpha.2"
+    include "io.github.thesupergamer20578:chroma:0.1.0-alpha.2"
 }
 
 processResources {
