@@ -1,6 +1,7 @@
 package com.TheSuperGamer20578.chromatic;
 
 import com.TheSuperGamer20578.chromatic.mixin.EntityAccessor;
+import io.github.thesupergamer20578.chroma.Colour;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
@@ -10,18 +11,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Layouts {
-    private static final ColourRef BLACK = new ColourRef(0, 0, 0);
+    private static final Colour BLACK = new Colour(0x000000);
 
-    public static ColourRef[][] main() {
+    public static Colour[][] main() {
         ModConfig config = ModConfig.INSTANCE;
-        ColourRef bgd = ColourRef.fromInt(config.backgroundColour);
-        ColourRef cht = ColourRef.fromInt(config.chatColour);
-        ColourRef mov = ColourRef.fromInt(config.movementColour);
-        ColourRef esc = ColourRef.fromInt(config.ESCColour);
-        ColourRef tab = ColourRef.fromInt(config.tabColour);
-        ColourRef mod = ColourRef.fromInt(config.modifierColour);
-        ColourRef inv = ColourRef.fromInt(config.inventoryColour);
-        return new ColourRef[][] {
+        Colour bgd = new Colour(config.backgroundColour);
+        Colour cht = new Colour(config.chatColour);
+        Colour mov = new Colour(config.movementColour);
+        Colour esc = new Colour(config.ESCColour);
+        Colour tab = new Colour(config.tabColour);
+        Colour mod = new Colour(config.modifierColour);
+        Colour inv = new Colour(config.inventoryColour);
+        return new Colour[][] {
                 {bgd, esc, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd},
                 {bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd},
                 {bgd, tab, inv, mov, inv, bgd, cht, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd},
@@ -31,22 +32,23 @@ public class Layouts {
         };
     }
 
-    public static void applyStatus(ColourRef[][] layout, @NotNull ClientPlayerEntity player, boolean tint) {
+    public static void applyStatus(Colour[][] layout, @NotNull ClientPlayerEntity player, boolean tint) {
         ModConfig config = ModConfig.INSTANCE;
         if (!player.getAbilities().invulnerable) {
             double health = player.getHealth() / player.getMaxHealth();
             boolean hardcore = player.world.getLevelProperties().isHardcore();
-            ColourRef healthColour;
+            Colour healthColour;
             if (player.hasStatusEffect(StatusEffects.POISON)) {
-                healthColour = hardcore ? ColourRef.fromInt(config.health.hardcorePoisonedColour) : ColourRef.fromInt(config.health.poisonedColour);
+                healthColour = hardcore ? new Colour(config.health.hardcorePoisonedColour) : new Colour(config.health.poisonedColour);
             } else if (player.hasStatusEffect(StatusEffects.WITHER)) {
-                healthColour = hardcore ? ColourRef.fromInt(config.health.hardcoreWitheredColour) : ColourRef.fromInt(config.health.witheredColour);
+                healthColour = hardcore ? new Colour(config.health.hardcoreWitheredColour) : new Colour(config.health.witheredColour);
             } else if (player.isFrozen()) {
-                healthColour = hardcore ? ColourRef.fromInt(config.health.hardcoreFrozenColour) : ColourRef.fromInt(config.health.frozenColour);
+                healthColour = hardcore ? new Colour(config.health.hardcoreFrozenColour) : new Colour(config.health.frozenColour);
             } else {
-                healthColour = hardcore ? ColourRef.fromInt(config.health.hardcoreNormalColour) : ColourRef.fromInt(config.health.normalColour);
+                healthColour = hardcore ? new Colour(config.health.hardcoreNormalColour) : new Colour(config.health.normalColour);
             }
-            if (tint) healthColour = healthColour.tint(tint(player));
+            // TODO Tinting is not yet implemented in Chroma
+//            if (tint) healthColour = healthColour.tint(tint(player));
             layout[0][3] = healthColour.multiply(health == 0 ? 0 : health > .25 ? 1 : health * 4);
             layout[0][4] = healthColour.multiply(health < .25 ? 0 : health > .5 ? 1 : (health - .25) * 4);
             layout[0][5] = healthColour.multiply(health < .5 ? 0 : health > .75 ? 1 : (health - .5) * 4);
@@ -54,8 +56,9 @@ public class Layouts {
 
             if (player.getAir() < player.getMaxAir()) {
                 float oxygen = (float) player.getAir() / player.getMaxAir();
-                ColourRef oxygenColour = ColourRef.fromInt(config.oxygenColour);
-                if (tint) oxygenColour = oxygenColour.tint(tint(player));
+                Colour oxygenColour = new Colour(config.oxygenColour);
+                // TODO Tinting is not yet implemented in Chroma
+//                if (tint) oxygenColour = oxygenColour.tint(tint(player));
                 layout[0][7] = oxygenColour.multiply(oxygen == 0 ? 0 : oxygen > .25 ? 1 : oxygen * 4);
                 layout[0][8] = oxygenColour.multiply(oxygen < .25 ? 0 : oxygen > .5 ? 1 : (oxygen - .25) * 4);
                 layout[0][9] = oxygenColour.multiply(oxygen < .5 ? 0 : oxygen > .75 ? 1 : (oxygen - .5) * 4);
@@ -63,24 +66,26 @@ public class Layouts {
             }
 
             float hunger = player.getHungerManager().getFoodLevel() / 20f;
-            ColourRef hungerColour = ColourRef.fromInt(config.hungerColour);
-            if (tint) hungerColour = hungerColour.tint(tint(player));
+            Colour hungerColour = new Colour(config.hungerColour);
+            // TODO Tinting is not yet implemented in Chroma
+//            if (tint) hungerColour = hungerColour.tint(tint(player));
             layout[0][11] = hungerColour.multiply(hunger == 0 ? 0 : hunger > .25 ? 1 : hunger * 4);
             layout[0][12] = hungerColour.multiply(hunger < .25 ? 0 : hunger > .5 ? 1 : (hunger - .25) * 4);
             layout[0][13] = hungerColour.multiply(hunger < .5 ? 0 : hunger > .75 ? 1 : (hunger - .5) * 4);
             layout[0][14] = hungerColour.multiply(hunger < .75 ? 0 : (hunger - .75) * 4);
         }
 
-        ColourRef selectedColour = ColourRef.fromInt(config.items.selectedColour);
-        if (tint) selectedColour = selectedColour.tint(tint(player));
-        ColourRef stackableColour = ColourRef.fromInt(config.items.stackableColour);
-        if (tint) stackableColour = stackableColour.tint(tint(player));
-        ColourRef toolColour = ColourRef.fromInt(config.items.toolColour);
-        if (tint) toolColour = toolColour.tint(tint(player));
-        ColourRef otherColour = ColourRef.fromInt(config.items.otherColour);
-        if (tint) otherColour = otherColour.tint(tint(player));
-        ColourRef emptyColour = ColourRef.fromInt(config.items.emptyColour);
-        if (tint) emptyColour = emptyColour.tint(tint(player));
+        // TODO Tinting is not yet implemented in Chroma
+        Colour selectedColour = new Colour(config.items.selectedColour);
+//        if (tint) selectedColour = selectedColour.tint(tint(player));
+        Colour stackableColour = new Colour(config.items.stackableColour);
+//        if (tint) stackableColour = stackableColour.tint(tint(player));
+        Colour toolColour = new Colour(config.items.toolColour);
+//        if (tint) toolColour = toolColour.tint(tint(player));
+        Colour otherColour = new Colour(config.items.otherColour);
+//        if (tint) otherColour = otherColour.tint(tint(player));
+        Colour emptyColour = new Colour(config.items.emptyColour);
+//        if (tint) emptyColour = emptyColour.tint(tint(player));
         float minBrightness = config.items.minBrightness / (float) 0xff;
         for (int i = 0; i < 9; i++) {
             ItemStack item = player.getInventory().getStack(i);
@@ -101,26 +106,26 @@ public class Layouts {
     }
 
     @Nullable
-    public static ColourRef tint(@Nullable ClientPlayerEntity player) {
+    public static Colour tint(@Nullable ClientPlayerEntity player) {
         ModConfig.Tint config = ModConfig.INSTANCE.tint;
         if (player == null || !config.enabled) {
             return null;
         }
 
         if (player.inPowderSnow || player.wasInPowderSnow) {
-            return ColourRef.fromInt(config.powderSnowColour);
+            return new Colour(config.powderSnowColour);
         }
         if (player.isSubmergedInWater()) {
-            return ColourRef.fromInt(config.waterColour);
+            return new Colour(config.waterColour);
         }
         if (player.isOnFire()) {
-            return ColourRef.fromInt(config.fireColour);
+            return new Colour(config.fireColour);
         }
         if (((EntityAccessor) player).invokeIsBeingRainedOn()) {
             if (player.world.isThundering()) {
-                return ColourRef.fromInt(config.stormColour);
+                return new Colour(config.stormColour);
             }
-            return ColourRef.fromInt(config.rainColour);
+            return new Colour(config.rainColour);
         }
         if (
             player.world.isRaining()
@@ -129,13 +134,13 @@ public class Layouts {
             && player.world.isSkyVisible(player.getBlockPos())
             && player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.getBlockPos()).getY() <= player.getBlockPos().getY()
         ) {
-            return ColourRef.fromInt(config.snowColour);
+            return new Colour(config.snowColour);
         }
         return null;
     }
 
-    public static void applyTint(ColourRef[][] layout, @Nullable ClientPlayerEntity player) {
-        ColourRef tint = tint(player);
+    public static void applyTint(Colour[][] layout, @Nullable ClientPlayerEntity player) {
+        Colour tint = tint(player);
         if (tint == null) {
             return;
         }
@@ -144,7 +149,8 @@ public class Layouts {
                 if (ModConfig.INSTANCE.tint.preserveBlack && layout[row][key].equals(BLACK)) {
                     continue;
                 }
-                layout[row][key] = layout[row][key].tint(tint);
+                // TODO Tinting is not yet implemented in Chroma
+                // layout[row][key] = layout[row][key].tint(tint);
             }
         }
     }

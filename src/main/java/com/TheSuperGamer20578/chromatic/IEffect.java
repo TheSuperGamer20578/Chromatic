@@ -1,18 +1,20 @@
 package com.TheSuperGamer20578.chromatic;
 
+import io.github.thesupergamer20578.chroma.drivers.Driver;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.jetbrains.annotations.Nullable;
-import org.jglr.jchroma.effects.KeyboardEffect;
 
 public interface IEffect {
     boolean noScreenOnly();
 
     /**
+     * Called every tick to update the effect
+     * @param driver The Chroma driver
      * @param client The Minecraft client
      * @param player The current player object
      * @param currentScreen The currently active screen
-     * @return The next frame in the animation or null if the end has been reached
+     * @return false if the effect is finished and should be removed from the queue, true otherwise.
      */
-    @Nullable KeyboardEffect next(MinecraftClient client, @Nullable ClientPlayerEntity player, Screens currentScreen);
+    boolean next(Driver driver, MinecraftClient client, @Nullable ClientPlayerEntity player, Screens currentScreen);
 }

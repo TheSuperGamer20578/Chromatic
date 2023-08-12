@@ -3,12 +3,12 @@ package com.TheSuperGamer20578.chromatic.mixin;
 import com.TheSuperGamer20578.chromatic.*;
 import com.TheSuperGamer20578.chromatic.effects.Damage;
 import com.TheSuperGamer20578.chromatic.effects.Regen;
+import io.github.thesupergamer20578.chroma.Chroma;
+import io.github.thesupergamer20578.chroma.Colour;
+import io.github.thesupergamer20578.chroma.drivers.Driver;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import org.jglr.jchroma.JChroma;
-import org.jglr.jchroma.effects.CustomKeyboardEffect;
-import org.jglr.jchroma.effects.KeyboardEffect;
-import org.jglr.jchroma.effects.StaticKeyboardEffect;
+import org.freedesktop.dbus.exceptions.DBusException;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,7 +29,13 @@ public class Client {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
         Screens screen = Screens.of(client.currentScreen == null ? null : client.currentScreen.getClass());
-        JChroma chroma = JChroma.getInstance();
+        Driver driver;
+        try {
+            driver = Chroma.getDriver();
+            assert driver != null;
+        } catch (DBusException e) {
+            throw new RuntimeException(e);
+        }
         ModConfig config = ModConfig.INSTANCE;
 
         // Regen/damage check
@@ -46,9 +52,7 @@ public class Client {
 
         IEffect effect = Util.effectQueue.peek();
         while (effect != null && (!effect.noScreenOnly() || screen == Screens.NONE)) {
-            KeyboardEffect next = effect.next(client, player, screen);
-            if (next != null) {
-                chroma.createKeyboardEffect(next);
+            if (effect.next(driver, client, player, screen)) {
                 return;
             }
             effect = Util.effectQueue.poll();
@@ -56,7 +60,7 @@ public class Client {
 
         switch (screen) {
             case OTHER:
-                chroma.createKeyboardEffect(new StaticKeyboardEffect(ColourRef.fromInt(config.backgroundColour)));
+                driver.staticKeyboardEffect(new Colour(config.backgroundColour));
                 break;
             case ANVIL:
             case BOOK_EDIT:
@@ -75,17 +79,18 @@ public class Client {
             case CHAT:
             case DIRECT_CONNECT:
             case SLEEPING:
-                chroma.createKeyboardEffect(new StaticKeyboardEffect(ColourRef.fromInt(config.chatColour)));
+                driver.staticKeyboardEffect(new Colour(config.chatColour));
                 break;
             case DEATH:
-                chroma.createKeyboardEffect(new StaticKeyboardEffect(new ColourRef(255, 0, 0)));
+                // TODO Should this be in the config?
+                driver.staticKeyboardEffect(new Colour(0xff0000));
                 break;
             case NONE:
-                ColourRef[][] layout = Layouts.main();
+                Colour[][] layout = Layouts.main();
                 Layouts.applyTint(layout, player);
                 if (player != null)
                     Layouts.applyStatus(layout, player, true);
-                chroma.createKeyboardEffect(new CustomKeyboardEffect(layout));
+                driver.customKeyboardEffect(layout);
                 break;
         }
     }
