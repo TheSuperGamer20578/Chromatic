@@ -9,6 +9,7 @@ import io.github.thesupergamer20578.chroma.drivers.Driver;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public class Client {
     private float lastHealth = -1;
+    private @Nullable Screens lastScreen = null;
 
     @Inject(at = @At("HEAD"), method = "joinWorld")
     private void joinWorld(CallbackInfo ci) {
@@ -58,6 +60,8 @@ public class Client {
             effect = Util.effectQueue.poll();
         }
 
+        if (screen != Screens.NONE && screen == lastScreen) return;
+
         switch (screen) {
             case OTHER:
                 driver.staticKeyboardEffect(new Colour(config.backgroundColour));
@@ -93,5 +97,6 @@ public class Client {
                 driver.customKeyboardEffect(layout);
                 break;
         }
+        lastScreen = screen;
     }
 }
