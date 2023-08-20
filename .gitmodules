@@ -1,3 +1,7 @@
 [submodule "lib/JChroma"]
 	path = lib/JChroma
 	url = https://github.com/TheSuperGamer20578/JChroma
+
+[submodule "Qodana-Profiles"]
+    path = Qodana-Profiles
+    url = https://github.com/TheSuperGamer20578/Qodana-Profiles
