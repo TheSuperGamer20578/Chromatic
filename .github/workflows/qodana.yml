@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          submodules: recursive
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2023.2
         env:
