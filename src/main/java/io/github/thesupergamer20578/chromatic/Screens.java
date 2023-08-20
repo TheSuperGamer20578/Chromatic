@@ -41,12 +41,13 @@ public enum Screens {
     NONE(null),
     OTHER(Screen.class);
 
-    @Nullable public final Class<? extends Screen> value;
+    public final @Nullable Class<? extends Screen> value;
+    private static final Map<@Nullable Class<? extends Screen>, Screens> cache = new HashMap<>(Screens.values().length);
+
     Screens(@Nullable Class<? extends Screen> screen) {
         value = screen;
     }
 
-    private static final Map<@Nullable Class<? extends Screen>, Screens> cache = new HashMap<>();
 
     public static Screens of(@Nullable Class<? extends Screen> key) {
         return cache.computeIfAbsent(key, k -> {

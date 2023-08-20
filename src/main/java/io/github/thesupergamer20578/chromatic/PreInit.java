@@ -17,6 +17,6 @@ public class PreInit implements PreLaunchEntrypoint {
         if (driver == null) {
             throw new RuntimeException("Could not initialise Chroma driver: no driver found");
         }
-        Util.LOGGER.info("Chroma initialised. Using " + driver.getClass().getName());
+        Util.LOGGER.info("Chroma initialised. Using {}", driver.getClass().getName());
     }
 }

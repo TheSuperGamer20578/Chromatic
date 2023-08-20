@@ -6,7 +6,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Util {
+public final class Util {
+    private Util() {}
     public static final Logger LOGGER = LogManager.getLogger("Chromatic");
-    public static Queue<Effect> effectQueue = new LinkedList<>();
+    public static final Queue<Effect> effectQueue = new LinkedList<>();
 }

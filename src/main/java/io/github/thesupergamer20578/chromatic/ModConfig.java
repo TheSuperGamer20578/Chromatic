@@ -6,6 +6,7 @@ import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 
+@SuppressWarnings("CanBeFinal")
 @Config(name = "chromatic")
 public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Excluded

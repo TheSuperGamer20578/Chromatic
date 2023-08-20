@@ -10,10 +10,11 @@ import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Layouts {
+public final class Layouts {
+    private Layouts() {}
     private static final Colour BLACK = new Colour(0x000000);
 
-    public static Colour[][] main() {
+    public static Colour[][] mainLayout() {
         ModConfig config = ModConfig.INSTANCE;
         Colour bgd = new Colour(config.backgroundColour);
         Colour cht = new Colour(config.chatColour);
@@ -22,7 +23,7 @@ public class Layouts {
         Colour tab = new Colour(config.tabColour);
         Colour mod = new Colour(config.modifierColour);
         Colour inv = new Colour(config.inventoryColour);
-        return new Colour[][] {
+        return new Colour[][]{
                 {bgd, esc, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd},
                 {bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd},
                 {bgd, tab, inv, mov, inv, bgd, cht, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd, bgd},
@@ -49,30 +50,30 @@ public class Layouts {
             }
             // TODO Tinting is not yet implemented in Chroma
 //            if (tint) healthColour = healthColour.tint(tint(player));
-            layout[0][3] = healthColour.multiply(health == 0 ? 0 : health > .25 ? 1 : health * 4);
-            layout[0][4] = healthColour.multiply(health < .25 ? 0 : health > .5 ? 1 : (health - .25) * 4);
-            layout[0][5] = healthColour.multiply(health < .5 ? 0 : health > .75 ? 1 : (health - .5) * 4);
-            layout[0][6] = healthColour.multiply(health < .75 ? 0 : (health - .75) * 4);
+            layout[0][3] = healthColour.multiply(health == 0 ? 0 : health > 0.25 ? 1 : health * 4);
+            layout[0][4] = healthColour.multiply(health < 0.25 ? 0 : health > 0.5 ? 1 : (health - 0.25) * 4);
+            layout[0][5] = healthColour.multiply(health < 0.5 ? 0 : health > 0.75 ? 1 : (health - 0.5) * 4);
+            layout[0][6] = healthColour.multiply(health < 0.75 ? 0 : (health - 0.75) * 4);
 
             if (player.getAir() < player.getMaxAir()) {
                 float oxygen = (float) player.getAir() / player.getMaxAir();
                 Colour oxygenColour = new Colour(config.oxygenColour);
                 // TODO Tinting is not yet implemented in Chroma
 //                if (tint) oxygenColour = oxygenColour.tint(tint(player));
-                layout[0][7] = oxygenColour.multiply(oxygen == 0 ? 0 : oxygen > .25 ? 1 : oxygen * 4);
-                layout[0][8] = oxygenColour.multiply(oxygen < .25 ? 0 : oxygen > .5 ? 1 : (oxygen - .25) * 4);
-                layout[0][9] = oxygenColour.multiply(oxygen < .5 ? 0 : oxygen > .75 ? 1 : (oxygen - .5) * 4);
-                layout[0][10] = oxygenColour.multiply(oxygen < .75 ? 0 : (oxygen - .75) * 4);
+                layout[0][7] = oxygenColour.multiply(oxygen == 0 ? 0 : oxygen > 0.25 ? 1 : oxygen * 4);
+                layout[0][8] = oxygenColour.multiply(oxygen < 0.25 ? 0 : oxygen > 0.5 ? 1 : (oxygen - 0.25) * 4);
+                layout[0][9] = oxygenColour.multiply(oxygen < 0.5 ? 0 : oxygen > 0.75 ? 1 : (oxygen - 0.5) * 4);
+                layout[0][10] = oxygenColour.multiply(oxygen < 0.75 ? 0 : (oxygen - 0.75) * 4);
             }
 
-            float hunger = player.getHungerManager().getFoodLevel() / 20f;
+            float hunger = player.getHungerManager().getFoodLevel() / 20.0f;
             Colour hungerColour = new Colour(config.hungerColour);
             // TODO Tinting is not yet implemented in Chroma
 //            if (tint) hungerColour = hungerColour.tint(tint(player));
-            layout[0][11] = hungerColour.multiply(hunger == 0 ? 0 : hunger > .25 ? 1 : hunger * 4);
-            layout[0][12] = hungerColour.multiply(hunger < .25 ? 0 : hunger > .5 ? 1 : (hunger - .25) * 4);
-            layout[0][13] = hungerColour.multiply(hunger < .5 ? 0 : hunger > .75 ? 1 : (hunger - .5) * 4);
-            layout[0][14] = hungerColour.multiply(hunger < .75 ? 0 : (hunger - .75) * 4);
+            layout[0][11] = hungerColour.multiply(hunger == 0 ? 0 : hunger > 0.25 ? 1 : hunger * 4);
+            layout[0][12] = hungerColour.multiply(hunger < 0.25 ? 0 : hunger > 0.5 ? 1 : (hunger - 0.25) * 4);
+            layout[0][13] = hungerColour.multiply(hunger < 0.5 ? 0 : hunger > 0.75 ? 1 : (hunger - 0.5) * 4);
+            layout[0][14] = hungerColour.multiply(hunger < 0.75 ? 0 : (hunger - 0.75) * 4);
         }
 
         // TODO Tinting is not yet implemented in Chroma
@@ -92,8 +93,7 @@ public class Layouts {
             boolean current = player.getInventory().selectedSlot == i;
             if (item.getCount() == 0) {
                 layout[1][i + 2] = emptyColour;
-            }
-            else {
+            } else {
                 if (item.isStackable()) {
                     layout[1][i + 2] = (current ? selectedColour : stackableColour).multiply(Math.max((float) item.getCount() / item.getMaxCount(), minBrightness));
                 } else if (item.isDamageable()) {

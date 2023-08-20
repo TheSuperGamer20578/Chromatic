@@ -1,13 +1,7 @@
-#file: noinspection SpellCheckingInspection
 version: "1.0"
 
 profile:
   path: Qodana-Profiles/minecraft.yaml
-
-exclude:
-  - name: SpellCheckingInspection
-    paths:
-      - LICENSE
 
 projectJDK: 19
 

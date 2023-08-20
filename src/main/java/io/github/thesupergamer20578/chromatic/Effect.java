@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
 public interface Effect {
     boolean noScreenOnly();
 

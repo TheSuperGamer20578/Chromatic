@@ -11,13 +11,16 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public class Client {
+    @Unique
     private float lastHealth = -1;
+    @Unique
     private @Nullable Screens lastScreen = null;
 
     @Inject(at = @At("HEAD"), method = "joinWorld")
@@ -90,7 +93,7 @@ public class Client {
                 driver.staticKeyboardEffect(new Colour(0xff0000));
                 break;
             case NONE:
-                Colour[][] layout = Layouts.main();
+                Colour[][] layout = Layouts.mainLayout();
                 Layouts.applyTint(layout, player);
                 if (player != null)
                     Layouts.applyStatus(layout, player, true);

@@ -23,6 +23,7 @@ public class Init implements ModInitializer {
             throw new RuntimeException(e);
         }
         driver.waveKeyboardEffect(WaveDirection.LEFT_TO_RIGHT);
+        //noinspection SpellCheckingInspection
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("chromaticconfig")
             .executes(context -> {
                 MinecraftClient.getInstance().send(() -> MinecraftClient.getInstance().setScreen(AutoConfig.getConfigScreen(ModConfig.class, null).get()));
