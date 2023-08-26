@@ -12,6 +12,9 @@ Use `/chromaticconfig` or [Mod Menu](https://github.com/TerraformersMC/ModMenu) 
 
 ## Features
 - Displays health on the F1-F4 keys
+    - Changes colour to reflect the heart colour in game
+    - Animates when healing
+    - Keyboard flashes red when taking large amounts of damage
 - Displays air on the F5-F8 keys
 - Displays hunger on the F9-F12 keys
 - The 1-9 keys display the quantity or durability of the items in your hotbar and what slot is selected
