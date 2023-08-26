@@ -1,5 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.1-SNAPSHOT'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 version = project.mod_version
@@ -31,7 +32,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     implementation "io.github.thesupergamer20578:chroma:0.1.0-alpha.2"
-    include "io.github.thesupergamer20578:chroma:0.1.0-alpha.2"
+    shadow "io.github.thesupergamer20578:chroma:0.1.0-alpha.2"
 }
 
 processResources {
@@ -55,4 +56,16 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    exclude "META-INF"
+    exclude("org/apache/commons/lang3/**")
+}
+
+remapJar {
+    dependsOn(shadowJar)
+    mustRunAfter(shadowJar)
+    inputFile = file(shadowJar.archiveFile)
 }
