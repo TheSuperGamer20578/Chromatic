@@ -48,8 +48,7 @@ public final class Layouts {
             } else {
                 healthColour = hardcore ? new Colour(config.health.hardcoreNormalColour) : new Colour(config.health.normalColour);
             }
-            // TODO Tinting is not yet implemented in Chroma
-//            if (tint) healthColour = healthColour.tint(tint(player));
+            if (tint) healthColour = healthColour.tint(tint(player));
             layout[0][3] = healthColour.multiply(health == 0 ? 0 : health > 0.25 ? 1 : health * 4);
             layout[0][4] = healthColour.multiply(health < 0.25 ? 0 : health > 0.5 ? 1 : (health - 0.25) * 4);
             layout[0][5] = healthColour.multiply(health < 0.5 ? 0 : health > 0.75 ? 1 : (health - 0.5) * 4);
@@ -58,8 +57,7 @@ public final class Layouts {
             if (player.getAir() < player.getMaxAir()) {
                 float oxygen = (float) player.getAir() / player.getMaxAir();
                 Colour oxygenColour = new Colour(config.oxygenColour);
-                // TODO Tinting is not yet implemented in Chroma
-//                if (tint) oxygenColour = oxygenColour.tint(tint(player));
+                if (tint) oxygenColour = oxygenColour.tint(tint(player));
                 layout[0][7] = oxygenColour.multiply(oxygen == 0 ? 0 : oxygen > 0.25 ? 1 : oxygen * 4);
                 layout[0][8] = oxygenColour.multiply(oxygen < 0.25 ? 0 : oxygen > 0.5 ? 1 : (oxygen - 0.25) * 4);
                 layout[0][9] = oxygenColour.multiply(oxygen < 0.5 ? 0 : oxygen > 0.75 ? 1 : (oxygen - 0.5) * 4);
@@ -68,25 +66,23 @@ public final class Layouts {
 
             float hunger = player.getHungerManager().getFoodLevel() / 20.0f;
             Colour hungerColour = new Colour(config.hungerColour);
-            // TODO Tinting is not yet implemented in Chroma
-//            if (tint) hungerColour = hungerColour.tint(tint(player));
+            if (tint) hungerColour = hungerColour.tint(tint(player));
             layout[0][11] = hungerColour.multiply(hunger == 0 ? 0 : hunger > 0.25 ? 1 : hunger * 4);
             layout[0][12] = hungerColour.multiply(hunger < 0.25 ? 0 : hunger > 0.5 ? 1 : (hunger - 0.25) * 4);
             layout[0][13] = hungerColour.multiply(hunger < 0.5 ? 0 : hunger > 0.75 ? 1 : (hunger - 0.5) * 4);
             layout[0][14] = hungerColour.multiply(hunger < 0.75 ? 0 : (hunger - 0.75) * 4);
         }
 
-        // TODO Tinting is not yet implemented in Chroma
         Colour selectedColour = new Colour(config.items.selectedColour);
-//        if (tint) selectedColour = selectedColour.tint(tint(player));
+        if (tint) selectedColour = selectedColour.tint(tint(player));
         Colour stackableColour = new Colour(config.items.stackableColour);
-//        if (tint) stackableColour = stackableColour.tint(tint(player));
+        if (tint) stackableColour = stackableColour.tint(tint(player));
         Colour toolColour = new Colour(config.items.toolColour);
-//        if (tint) toolColour = toolColour.tint(tint(player));
+        if (tint) toolColour = toolColour.tint(tint(player));
         Colour otherColour = new Colour(config.items.otherColour);
-//        if (tint) otherColour = otherColour.tint(tint(player));
+        if (tint) otherColour = otherColour.tint(tint(player));
         Colour emptyColour = new Colour(config.items.emptyColour);
-//        if (tint) emptyColour = emptyColour.tint(tint(player));
+        if (tint) emptyColour = emptyColour.tint(tint(player));
         float minBrightness = config.items.minBrightness / (float) 0xff;
         for (int i = 0; i < 9; i++) {
             ItemStack item = player.getInventory().getStack(i);
@@ -149,8 +145,7 @@ public final class Layouts {
                 if (ModConfig.INSTANCE.tint.preserveBlack && layout[row][key].equals(BLACK)) {
                     continue;
                 }
-                // TODO Tinting is not yet implemented in Chroma
-                // layout[row][key] = layout[row][key].tint(tint);
+                layout[row][key] = layout[row][key].tint(tint);
             }
         }
     }
