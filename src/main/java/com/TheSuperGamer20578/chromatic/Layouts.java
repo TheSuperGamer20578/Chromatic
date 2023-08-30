@@ -35,7 +35,7 @@ public class Layouts {
         ModConfig config = ModConfig.INSTANCE;
         if (!player.getAbilities().invulnerable) {
             double health = player.getHealth() / player.getMaxHealth();
-            boolean hardcore = player.world.getLevelProperties().isHardcore();
+            boolean hardcore = player.getWorld().getLevelProperties().isHardcore();
             ColourRef healthColour;
             if (player.hasStatusEffect(StatusEffects.POISON)) {
                 healthColour = hardcore ? ColourRef.fromInt(config.health.hardcorePoisonedColour) : ColourRef.fromInt(config.health.poisonedColour);
@@ -117,17 +117,17 @@ public class Layouts {
             return ColourRef.fromInt(config.fireColour);
         }
         if (((EntityAccessor) player).invokeIsBeingRainedOn()) {
-            if (player.world.isThundering()) {
+            if (player.getWorld().isThundering()) {
                 return ColourRef.fromInt(config.stormColour);
             }
             return ColourRef.fromInt(config.rainColour);
         }
         if (
-            player.world.isRaining()
-            && player.world.getBiome(player.getBlockPos()).value().getPrecipitation(player.getBlockPos()) == Biome.Precipitation.SNOW
-            && !player.world.getBiome(player.getBlockPos()).value().doesNotSnow(player.getBlockPos())
-            && player.world.isSkyVisible(player.getBlockPos())
-            && player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.getBlockPos()).getY() <= player.getBlockPos().getY()
+            player.getWorld().isRaining()
+            && player.getWorld().getBiome(player.getBlockPos()).value().getPrecipitation(player.getBlockPos()) == Biome.Precipitation.SNOW
+            && !player.getWorld().getBiome(player.getBlockPos()).value().doesNotSnow(player.getBlockPos())
+            && player.getWorld().isSkyVisible(player.getBlockPos())
+            && player.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.getBlockPos()).getY() <= player.getBlockPos().getY()
         ) {
             return ColourRef.fromInt(config.snowColour);
         }
