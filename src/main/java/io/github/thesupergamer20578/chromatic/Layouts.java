@@ -37,7 +37,7 @@ public final class Layouts {
         ModConfig config = ModConfig.INSTANCE;
         if (!player.getAbilities().invulnerable) {
             double health = player.getHealth() / player.getMaxHealth();
-            boolean hardcore = player.world.getLevelProperties().isHardcore();
+            boolean hardcore = player.getWorld().getLevelProperties().isHardcore();
             Colour healthColour;
             if (player.hasStatusEffect(StatusEffects.POISON)) {
                 healthColour = hardcore ? new Colour(config.health.hardcorePoisonedColour) : new Colour(config.health.poisonedColour);
@@ -118,17 +118,17 @@ public final class Layouts {
             return new Colour(config.fireColour);
         }
         if (((EntityAccessor) player).invokeIsBeingRainedOn()) {
-            if (player.world.isThundering()) {
+            if (player.getWorld().isThundering()) {
                 return new Colour(config.stormColour);
             }
             return new Colour(config.rainColour);
         }
         if (
-            player.world.isRaining()
-            && player.world.getBiome(player.getBlockPos()).value().getPrecipitation(player.getBlockPos()) == Biome.Precipitation.SNOW
-            && !player.world.getBiome(player.getBlockPos()).value().doesNotSnow(player.getBlockPos())
-            && player.world.isSkyVisible(player.getBlockPos())
-            && player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.getBlockPos()).getY() <= player.getBlockPos().getY()
+            player.getWorld().isRaining()
+            && player.getWorld().getBiome(player.getBlockPos()).value().getPrecipitation(player.getBlockPos()) == Biome.Precipitation.SNOW
+            && !player.getWorld().getBiome(player.getBlockPos()).value().doesNotSnow(player.getBlockPos())
+            && player.getWorld().isSkyVisible(player.getBlockPos())
+            && player.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.getBlockPos()).getY() <= player.getBlockPos().getY()
         ) {
             return new Colour(config.snowColour);
         }
