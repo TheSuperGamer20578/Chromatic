@@ -1,16 +1,56 @@
 plugins {
     id 'fabric-loom' version '1.1-SNAPSHOT'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.palantir.git-version' version '3.0.0'
+    id 'com.modrinth.minotaur' version '2.+'
+    id 'io.github.themrmilchmann.curseforge-publish' version '0.4.0'
 }
 
-version = project.mod_version
-group = "com.TheSuperGamer20578"
+
+def git = versionDetails()
+def prefix = 'v'
+def tag
+if (git.lastTag.startsWith(prefix)) {
+    tag = git.lastTag.substring(prefix.length())
+} else {
+    tag = git.lastTag
+}
+if (hasProperty('ci')) {
+    switch (property('ci')) {
+        case 'release':
+            if (git.commitDistance != 0) {
+                throw new InvalidUserDataException('Not on a tag')
+            }
+            if (!git.lastTag.startsWith('v')) {
+                throw new InvalidUserDataException('Last tag was not a version tag')
+            }
+            version = "${tag}"
+            break
+        case 'snapshot':
+            version = "${tag}${tag.contains('-') ? '.' : '-'}SNAPSHOT.${git.commitDistance}.${git.branchName}.${git.gitHash}"
+            break
+        default:
+            throw new InvalidUserDataException("Invalid ci argument: ${property("ci")}")
+    }
+} else {
+    version = "${tag}${tag.contains('-') ? '.' : '-'}SNAPSHOT.${git.commitDistance}.${git.branchName}.${git.gitHash}+local"
+}
+group = 'io.github.thesupergamer20578'
+
 
 repositories {
     maven {
-        url "https://maven.terraformersmc.com/"
-        }
+        url 'https://maven.terraformersmc.com/'
+    }
     maven {
-        url "https://maven.shedaniel.me/"
+        url 'https://maven.shedaniel.me/'
+    }
+    maven {
+        url 'https://maven.pkg.github.com/thesupergamer20578/chroma/'
+        credentials {
+            username = project.findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
+            password = project.findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
+        }
     }
 }
 
@@ -18,25 +58,24 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "com.terraformersmc:modmenu:6.1.0-rc.4"
-    modApi("me.shedaniel.cloth:cloth-config-fabric:10.0.96") {
-        exclude(group: "net.fabricmc.fabric-api")
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+        exclude(group: 'net.fabricmc.fabric-api')
     }
     implementation project(":lib:JChroma")
     include project(":lib:JChroma")
 }
 
 processResources {
-    inputs.property "version", project.version
+    inputs.property 'version', project.version
 
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 11
     it.options.encoding 'UTF-8'
 }
 
@@ -45,7 +84,26 @@ java {
 }
 
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
+    from('LICENSE') {
+        rename { "${it}_${project.archivesBaseName}" }
     }
+}
+
+shadowJar {
+    archiveClassifier = 'unmapped'
+    configurations = [project.configurations.shadow]
+    exclude 'META-INF'
+    exclude 'org/apache/commons/lang3/**'
+}
+
+remapJar {
+    dependsOn shadowJar
+    mustRunAfter shadowJar
+    inputFile = file(shadowJar.archiveFile)
+}
+
+modrinth {
+    projectId = 'gB2OPOxC'
+    token = System.getenv('MODRINTH_TOKEN')
+    syncBodyFrom = rootProject.file('README.md').text
 }

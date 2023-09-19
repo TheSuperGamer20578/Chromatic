@@ -1,0 +1,76 @@
+name: Push
+on:
+  pull_request_target:
+  push:
+    branches:
+      - "*"
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  qodana:
+    name: Qodana
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - uses: JetBrains/qodana-action@v2023.2
+        with:
+          args: -e,GITHUB_ACTOR=${{ env.GITHUB_ACTOR }},-e,GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          submodules: recursive
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - uses: gradle/gradle-build-action@v2
+      - name: Build
+        run: |
+          gradle build -Pci=snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Chromatic SNAPSHOT
+          path: build/libs
+  codeql:
+    name: CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: github/codeql-action/init@v2
+        with:
+          languages: java
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - uses: gradle/gradle-build-action@v2
+      - name: Build
+        run: |
+          gradle build -Pci=snapshot --no-build-cache
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v3
+        with:
+          name: Chromatic SNAPSHOT
+          path: build/libs
+      - uses: github/codeql-action/analyze@v2
