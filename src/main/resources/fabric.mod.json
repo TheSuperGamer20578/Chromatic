@@ -35,5 +35,11 @@
   },
   "mixins": [
     "chromatic.mixins.json"
-  ]
+  ],
+  "custom": {
+    "mc-publish": {
+      "modrinth": "gB2OPOxC",
+      "curseforge": "558913"
+    }
+  }
 }

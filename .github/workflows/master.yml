@@ -1,0 +1,41 @@
+#file: noinspection SpellCheckingInspection
+name: Push (master)
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  dependencies:
+    name: Dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: mikepenz/gradle-dependency-submission@v0.8.6
+        with:
+          use-gradlew: false
+  modrinth-description:
+    name: Update Modrinth Description
+    runs-on: ubuntu-latest
+    if: false  # TODO Make description work on Modrinth
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - uses: gradle/gradle-build-action@v2
+      - name: Build
+        run: |
+          gradle modrinthSyncBody
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}

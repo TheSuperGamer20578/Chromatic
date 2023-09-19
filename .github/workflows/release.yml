@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          submodules: recursive
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - uses: gradle/gradle-build-action@v2
+      - name: Build
+        run: |
+          gradle build -Pci=release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Chromatic Release
+          path: build/libs
+  publish:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Get version information from tag
+        id: tag
+        run: |
+          git fetch -f origin ${{ github.ref }}:${{ github.ref }}  # https://github.com/actions/checkout/issues/290
+          ref=${GITHUB_REF/refs\/tags\//}
+          echo "tag=$ref" >> $GITHUB_OUTPUT
+          echo "version=${ref/v/}" >> $GITHUB_OUTPUT
+          if grep -q "-" <<< "$ref"
+          then
+            echo "embed_message=" >> $GITHUB_OUTPUT
+            if grep -q "alpha" <<< "$ref"
+            then
+              echo "embed_colour=$((0xfc2803))" >> $GITHUB_OUTPUT
+            elif grep -q "beta" <<< "$ref"
+            then
+              echo "embed_colour=$((0x03befc))" >> $GITHUB_OUTPUT
+            else
+              echo "embed_colour=$((0x6be8c0))" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "embed_message=<@&1040804523553345646>" >> $GITHUB_OUTPUT
+            echo "embed_colour=$((0x6be86f))" >> $GITHUB_OUTPUT
+          fi
+          {
+            echo $'changelog<<\04'
+            git tag -l --format="%(contents)" $ref | sed -n "/-----BEGIN PGP SIGNATURE-----/q;p" | tee CHANGELOG.md
+            echo $'\04'
+          } >> $GITHUB_OUTPUT
+      - uses: actions/download-artifact@v3
+      - uses: Kir-Antipov/mc-publish@v3.3
+        id: mc-publish
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          game-version-filter: releases | min-major | max-major
+          github-discussion: Announcements
+          modrinth-featured: false
+          name: Chromatic ${{ steps.tag.outputs.tag }}
+          version: ${{ steps.tag.outputs.tag }}
+          changelog-file: CHANGELOG.md
+          files: "Chromatic Release/Chromatic-${{ steps.tag.outputs.version }}.jar"
+      - uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: ${{ steps.tag.outputs.embed_message }}
+          embed-title: "Chromatic ${{ steps.tag.outputs.tag }} has been released!"
+          embed-author-name: ${{ github.actor }}
+          embed-author-icon-url: https://avatars.githubusercontent.com/u/${{ github.actor_id }}
+          embed-color: ${{ steps.tag.outputs.embed_colour }}
+          embed-description: |
+            ${{ steps.tag.outputs.changelog }}
+            
+            __**Download:**__
+            [<:github:1148533096166215730> GitHub](${{ steps.mc-publish.outputs.github-url }})
+            [<:modrinth:1148533092097728592> Modrinth](https://modrinth.com/mod/${{ steps.mc-publish.outputs.modrinth-id }}/version/${{ steps.mc-publish.outputs.modrinth-version }})
+            [<:curseforge:1148533086959706122> CurseForge](${{ steps.mc-publish.outputs.curseforge-url }})
