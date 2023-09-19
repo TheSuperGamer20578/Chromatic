@@ -71,8 +71,8 @@ jobs:
         id: mc-publish
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+        # modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+        # curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           game-version-filter: releases | min-major | max-major
           github-discussion: Announcements
           modrinth-featured: false
@@ -93,5 +93,5 @@ jobs:
             
             __**Download:**__
             [<:github:1148533096166215730> GitHub](${{ steps.mc-publish.outputs.github-url }})
-            [<:modrinth:1148533092097728592> Modrinth](https://modrinth.com/mod/${{ steps.mc-publish.outputs.modrinth-id }}/version/${{ steps.mc-publish.outputs.modrinth-version }})
-            [<:curseforge:1148533086959706122> CurseForge](${{ steps.mc-publish.outputs.curseforge-url }})
+          # [<:modrinth:1148533092097728592> Modrinth](https://modrinth.com/mod/${{ steps.mc-publish.outputs.modrinth-id }}/version/${{ steps.mc-publish.outputs.modrinth-version }})
+          # [<:curseforge:1148533086959706122> CurseForge](${{ steps.mc-publish.outputs.curseforge-url }})
