@@ -3,7 +3,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'com.palantir.git-version' version '3.0.0'
     id 'com.modrinth.minotaur' version '2.+'
-    id 'io.github.themrmilchmann.curseforge-publish' version '0.4.0'
 }
 
 
@@ -36,6 +35,7 @@ if (hasProperty('ci')) {
     version = "${tag}${tag.contains('-') ? '.' : '-'}SNAPSHOT.${git.commitDistance}.${git.branchName}.${git.gitHash}+local"
 }
 group = 'io.github.thesupergamer20578'
+java.sourceCompatibility = java.targetCompatibility = JavaVersion.VERSION_17
 
 
 repositories {
@@ -92,8 +92,15 @@ jar {
 shadowJar {
     archiveClassifier = 'unmapped'
     configurations = [project.configurations.shadow]
-    exclude 'META-INF'
-    exclude 'org/apache/commons/lang3/**'
+    minimize() {
+        exclude(dependency('com.github.hypfvieh:dbus-java-transport-.*:.*'))
+    }
+    enableRelocation true
+    relocationPrefix = "${project.group}.${project.name}.shadow"
+    relocate("${project.group}.${project.name}", "${project.group}.${project.name}")
+    relocate('org.freedesktop.dbus', 'org.freedesktop.dbus')
+    relocate('jnr', 'jnr')
+    relocate('com.kenai', 'com.kenai')
 }
 
 remapJar {

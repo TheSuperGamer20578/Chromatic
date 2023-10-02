@@ -9,4 +9,4 @@ pluginManagement {
     }
 }
 
-include 'lib:JChroma'
+rootProject.name = 'chromatic'
