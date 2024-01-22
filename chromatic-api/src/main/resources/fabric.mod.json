@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "chromatic-core",
+  "version": "${version}",
+  "name": "Chromatic Core",
+  "authors": [
+    "TheSuperGamer20578"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/chromatic",
+    "issues": "https://github.com/TheSuperGamer20578/Chromatic/issues",
+    "sources": "https://github.com/TheSuperGamer20578/Chromatic"
+  },
+  "license": "LGPL-2.1-or-later",
+  "icon": "assets/chromatic/icon.png",
+  "environment": "client",
+  "depends": {
+    "fabric": "*",
+    "fabricloader": "*",
+    "minecraft": ">=1.19",
+    "java": ">=11",
+    "chromatic": "${version}"
+  },
+  "entrypoints": {
+    "main": [
+    ]
+  }
+}

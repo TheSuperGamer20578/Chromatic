@@ -10,3 +10,5 @@ pluginManagement {
 }
 
 rootProject.name = 'chromatic'
+include 'chromatic-api'
+include 'chromatic-core'

@@ -5,108 +5,116 @@ plugins {
     id 'com.modrinth.minotaur' version '2.+'
 }
 
+allprojects {
+    apply plugin: 'fabric-loom'
 
-def git = versionDetails()
-def prefix = 'v'
-def tag
-if (git.lastTag.startsWith(prefix)) {
-    tag = git.lastTag.substring(prefix.length())
-} else {
-    tag = git.lastTag
-}
-if (hasProperty('ci')) {
-    switch (property('ci')) {
-        case 'release':
-            if (git.commitDistance != 0) {
-                throw new InvalidUserDataException('Not on a tag')
-            }
-            if (!git.lastTag.startsWith('v')) {
-                throw new InvalidUserDataException('Last tag was not a version tag')
-            }
-            version = "${tag}"
-            break
-        case 'snapshot':
-            version = "${tag}${tag.contains('-') ? '.' : '-'}SNAPSHOT.${git.commitDistance}.${git.branchName}.${git.gitHash}"
-            break
-        default:
-            throw new InvalidUserDataException("Invalid ci argument: ${property("ci")}")
-    }
-} else {
-    version = "${tag}${tag.contains('-') ? '.' : '-'}SNAPSHOT.${git.commitDistance}.${git.branchName}.${git.gitHash}+local"
-}
-group = 'io.github.thesupergamer20578'
-java.sourceCompatibility = java.targetCompatibility = JavaVersion.VERSION_17
-
-
-repositories {
-    maven {
-        url 'https://maven.terraformersmc.com/'
-    }
-    maven {
-        url 'https://maven.shedaniel.me/'
-    }
-    maven {
-        url 'https://maven.pkg.github.com/thesupergamer20578/chroma/'
-        credentials {
-            username = project.findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
-            password = project.findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
+    repositories {
+        maven {
+            url 'https://maven.terraformersmc.com/'
         }
+        maven {
+            url 'https://maven.shedaniel.me/'
+        }
+        maven {
+            url 'https://maven.pkg.github.com/thesupergamer20578/chroma/'
+            credentials {
+                username = project.findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
+                password = project.findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
+            }
+        }
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+        implementation "io.github.thesupergamer20578:chroma:${project.chroma_version}"
+        api it
+    }
+
+    def git = versionDetails()
+    def prefix = 'v'
+    def tag
+    if (git.lastTag.startsWith(prefix)) {
+        tag = git.lastTag.substring(prefix.length())
+    } else {
+        tag = git.lastTag
+    }
+    if (hasProperty('ci')) {
+        switch (property('ci')) {
+            case 'release':
+                if (git.commitDistance != 0) {
+                    throw new InvalidUserDataException('Not on a tag')
+                }
+                if (!git.lastTag.startsWith('v')) {
+                    throw new InvalidUserDataException('Last tag was not a version tag')
+                }
+                version = "${tag}"
+                break
+            case 'snapshot':
+                version = "${tag}${tag.contains('-') ? '.' : '-'}SNAPSHOT.${git.commitDistance}.${git.branchName}.${git.gitHash}"
+                break
+            default:
+                throw new InvalidUserDataException("Invalid ci argument: ${property("ci")}")
+        }
+    } else {
+        version = "${tag}${tag.contains('-') ? '.' : '-'}SNAPSHOT.${git.commitDistance}.${git.branchName}.${git.gitHash}+local"
+    }
+    group = 'io.github.thesupergamer20578'
+    java.sourceCompatibility = java.targetCompatibility = JavaVersion.VERSION_17
+
+    processResources {
+        inputs.property 'version', project.version
+
+        filesMatching('fabric.mod.json') {
+            expand 'version': project.version
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding 'UTF-8'
+    }
+
+    java {
+        withSourcesJar()
+    }
+
+    jar {
+        from('LICENSE') {
+            rename { "${it}_${project.archivesBaseName}" }
+        }
+    }
+
+    shadowJar {
+        archiveClassifier = 'unmapped'
+        configurations = [project.configurations.shadow]
+        minimize() {
+            exclude(dependency('com.github.hypfvieh:dbus-java-transport-.*:.*'))
+        }
+        enableRelocation true
+        relocationPrefix = "${project.group}.${project.name}.shadow"
+        relocate("${project.group}.${project.name}", "${project.group}.${project.name}")
+        relocate('org.freedesktop.dbus', 'org.freedesktop.dbus')
+        relocate('jnr', 'jnr')
+        relocate('com.kenai', 'com.kenai')
+    }
+
+    remapJar {
+        dependsOn shadowJar
+        mustRunAfter shadowJar
+        inputFile = file(shadowJar.archiveFile)
     }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
         exclude(group: 'net.fabricmc.fabric-api')
     }
-    implementation "io.github.thesupergamer20578:chroma:${project.chroma_version}"
     shadow "io.github.thesupergamer20578:chroma:${project.chroma_version}"
-}
-
-processResources {
-    inputs.property 'version', project.version
-
-    filesMatching('fabric.mod.json') {
-        expand 'version': project.version
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding 'UTF-8'
-}
-
-java {
-    withSourcesJar()
-}
-
-jar {
-    from('LICENSE') {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
-}
-
-shadowJar {
-    archiveClassifier = 'unmapped'
-    configurations = [project.configurations.shadow]
-    minimize() {
-        exclude(dependency('com.github.hypfvieh:dbus-java-transport-.*:.*'))
-    }
-    enableRelocation true
-    relocationPrefix = "${project.group}.${project.name}.shadow"
-    relocate("${project.group}.${project.name}", "${project.group}.${project.name}")
-    relocate('org.freedesktop.dbus', 'org.freedesktop.dbus')
-    relocate('jnr', 'jnr')
-    relocate('com.kenai', 'com.kenai')
-}
-
-remapJar {
-    dependsOn shadowJar
-    mustRunAfter shadowJar
-    inputFile = file(shadowJar.archiveFile)
+//    include project(':chromatic-api')
+//    include project(':chromatic-core')
 }
 
 modrinth {
