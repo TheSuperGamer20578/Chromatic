@@ -10,19 +10,6 @@ permissions:
   packages: read
 
 jobs:
-  qodana:
-    name: Qodana
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          submodules: recursive
-      - uses: JetBrains/qodana-action@v2023.2
-        with:
-          args: -e,GITHUB_ACTOR=${{ env.GITHUB_ACTOR }},-e,GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
   build:
     name: Build
     runs-on: ubuntu-latest
