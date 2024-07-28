@@ -23,7 +23,6 @@ jobs:
   modrinth-description:
     name: Update Modrinth Description
     runs-on: ubuntu-latest
-    if: false  # TODO Make description work on Modrinth
     steps:
       - uses: actions/checkout@v3
         with:

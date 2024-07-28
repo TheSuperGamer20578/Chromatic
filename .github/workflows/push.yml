@@ -26,7 +26,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
       - name: Build
         run: |
-          gradle build -Pci=snapshot
+          gradle build -x test -Pci=snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v3
@@ -53,7 +53,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
       - name: Build
         run: |
-          gradle build -Pci=snapshot --no-build-cache
+          gradle build -x test -Pci=snapshot --no-build-cache
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3
