@@ -66,7 +66,7 @@ jobs:
             git tag -l --format="%(contents)" $ref | sed -n "/-----BEGIN PGP SIGNATURE-----/q;p" | tee CHANGELOG.md
             echo $'\04'
           } >> $GITHUB_OUTPUT
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
       - uses: Kir-Antipov/mc-publish@v3.3
         id: mc-publish
         with:
