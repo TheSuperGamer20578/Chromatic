@@ -56,7 +56,7 @@ jobs:
           gradle build -x test -Pci=snapshot --no-build-cache
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: Chromatic SNAPSHOT
           path: build/libs
