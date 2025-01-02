@@ -1,10 +1,10 @@
 {pkgs ? import <nixpkgs> {} }: pkgs.mkShell {
     nativeBuildInputs = with pkgs.buildPackages; [
-        jdk22
+        jdk
         gradle
     ];
 
     env = {
-        JAVA_HOME = "${pkgs.jdk22}/lib/openjdk";
+        JAVA_HOME = "${pkgs.jdk}/lib/openjdk";
     };
 }

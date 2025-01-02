@@ -124,8 +124,8 @@ public class Layouts {
         }
         if (
             player.getWorld().isRaining()
-            && player.getWorld().getBiome(player.getBlockPos()).value().getPrecipitation(player.getBlockPos()) == Biome.Precipitation.SNOW
-            && !player.getWorld().getBiome(player.getBlockPos()).value().doesNotSnow(player.getBlockPos())
+            && player.getWorld().getBiome(player.getBlockPos()).value().getPrecipitation(player.getBlockPos(), player.getWorld().getSeaLevel()) == Biome.Precipitation.SNOW
+            && !player.getWorld().getBiome(player.getBlockPos()).value().doesNotSnow(player.getBlockPos(), player.getWorld().getSeaLevel())
             && player.getWorld().isSkyVisible(player.getBlockPos())
             && player.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.getBlockPos()).getY() <= player.getBlockPos().getY()
         ) {
